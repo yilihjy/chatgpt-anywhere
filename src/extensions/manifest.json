@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Hello Extensions of the world!",
+  "description": "Base Level Extension",
+  "version": "1.0",
+  "action": {
+    "default_popup": "hello.html"
+  },
+  "icons": {
+    "16": "images/icon-16.png",
+    "32": "images/icon-32.png",
+    "48": "images/icon-48.png",
+    "128": "images/icon-128.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}
