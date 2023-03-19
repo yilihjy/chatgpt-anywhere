@@ -35,8 +35,8 @@ export function useApi2d() {
                 origin: ret
             }
         } catch (error) {
-            if (ret?.error){
-                throw new Error(`发生错误，错误原因:\n\`\`\`json\n${JSON.stringify(ret.error, undefined, 4)}\n\`\`\``);
+            if (ret){
+                throw new Error(`发生错误，错误原因:\n\`\`\`json\n${JSON.stringify(ret, undefined, 4)}\n\`\`\``);
             } else {
                 throw error;
             }
