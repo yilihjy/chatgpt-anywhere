@@ -12,6 +12,9 @@ import IconsResolver from 'unplugin-icons/resolver'
 // https://vitejs.dev/config/
 export default defineConfig({
   base: '/chatgpt-anywhere/',
+  build: {
+    outDir: 'docs'
+  },
   plugins: [
     vue(),
     AutoImport({
