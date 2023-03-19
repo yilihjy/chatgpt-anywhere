@@ -2,6 +2,9 @@
 
 基于 [api2d-js](https://github.com/easychen/api2d-js) 和 [vue3-beautiful-chat](https://github.com/Sitronik/vue3-beautiful-chat) 制作的chatGPT网页聊天工具。可以用于快速部署一个专属自己的chatGPT聊天页面。
 
+## 在线速览
+访问[https://yilihjy.github.io/chatgpt-anywhere/](https://yilihjy.github.io/chatgpt-anywhere/) 立刻体验
+
 ## 已有特性
 - 网页聊天应用，能够和chatGPT进行文字聊天；
 - 支持切换openAI的官方接口和第三方接口，方便不同网络环境使用；
