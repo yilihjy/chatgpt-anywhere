@@ -2,6 +2,12 @@
 
 基于 [api2d-js](https://github.com/easychen/api2d-js) 和 [vue3-beautiful-chat](https://github.com/Sitronik/vue3-beautiful-chat) 制作的chatGPT网页聊天工具。可以用于快速部署一个专属自己的chatGPT聊天页面。
 
+## 已有特性
+- 网页聊天应用，能够和chatGPT进行文字聊天；
+- 支持切换openAI的官方接口和第三方接口，方便不同网络环境使用；
+- 能够保存每次会话的记录为json文件，方便记录下有趣的对话内容；
+- 支持上传保存的json文件，随时恢复上一次和chatGPT的对话。
+- 快速利用Github Pages部署属于自己的专属聊天页面
 
 ## 利用Github Pages快速部署指南
 

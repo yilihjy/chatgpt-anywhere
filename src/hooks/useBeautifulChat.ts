@@ -1,18 +1,21 @@
 import { reactive, ref } from 'vue';
-import type { BCparticipants, BCMessage } from '../types/beautifulChat';
+import type { BCparticipants, BCMessage, BCTextMessage } from '../types/beautifulChat';
+import { ORDER_LIST_COMPLETE } from './useSystemOrder';
+import type { ChatGPTMessage } from '../types/chatGPT';
 
+import AIAvatar from '../assets/images/ai-avatar.png'
 export function useBeautifulChat(onUserSendMessage: (msg: string) => void) {
 
     const participants = reactive<BCparticipants>([
         {
             id: 'admin',
             name: 'admin',
-            imageUrl: 'https://ui-avatars.com/api/?name=%E7%AE%A1%E7%90%86'
+            imageUrl: 'https://ui-avatars.com/api/?name=%E7%B3%BB%E7%BB%9F'
         },
         {
             id: 'assistant',
             name: 'chatGPT',
-            imageUrl: 'https://ui-avatars.com/api/?name=AI'
+            imageUrl: AIAvatar
         }
     ]);
 
@@ -24,7 +27,7 @@ export function useBeautifulChat(onUserSendMessage: (msg: string) => void) {
 
     const beautifulChatConfig = reactive({
         participants: participants, // the list of all the participant of the conversation. `name` is the user name, `id` is used to establish the author of a message, `imageUrl` is supposed to be the user avatar.
-        titleImageUrl: 'https://ui-avatars.com/api/?name=AI',
+        titleImageUrl: AIAvatar,
         messageList: messageList, // the list of the messages to show, can be paginated and adjusted dynamically
         newMessagesCount: newMessagesCount,
         isOpen: isChatOpen, // to determine whether the chat window should be open or closed
@@ -71,14 +74,14 @@ export function useBeautifulChat(onUserSendMessage: (msg: string) => void) {
     function sendMessage(text: string) {
         if (text.length > 0) {
             newMessagesCount.value = isChatOpen.value ? newMessagesCount.value : newMessagesCount.value + 1;
-            onMessageWasSent({ author: 'assistant', type: 'text', data: { text }, suggestions: ['系统指令：结束本次会话'] })
+            onMessageWasSent({ author: 'assistant', type: 'text', data: { text }, suggestions: ORDER_LIST_COMPLETE })
         }
     }
 
-    function sendSystemMessage(text: string) {
+    function sendSystemMessage(text: string, suggestions: Array<string> = ORDER_LIST_COMPLETE) {
         if (text.length > 0) {
             newMessagesCount.value = isChatOpen.value ? newMessagesCount.value : newMessagesCount.value + 1;
-            onMessageWasSent({ author: 'admin', type: 'text', data: { text } })
+            onMessageWasSent({ author: 'admin', type: 'text', data: { text }, suggestions })
         }
     }
 
@@ -94,7 +97,7 @@ export function useBeautifulChat(onUserSendMessage: (msg: string) => void) {
                 console.log('TODO');
             }
         }
-        
+
     }
 
     function openChat() {
@@ -105,23 +108,27 @@ export function useBeautifulChat(onUserSendMessage: (msg: string) => void) {
         isChatOpen.value = false
     }
 
+    function setAllMessage(list: Array<ChatGPTMessage>) {
+        console.log('setAllMessage', list);
+        beautifulChatConfig.messageList.splice(0, beautifulChatConfig.messageList.length);
+        list.filter(item => item.role === 'user' || item.role === 'assistant').map(item => {
+            if (item.role === 'user') {
+                return { author: 'me', type: 'text', data: { text: item.content }, suggestions: ORDER_LIST_COMPLETE }
+            } else {
+                return { author: 'assistant', type: 'text', data: { text: item.content }, suggestions: ORDER_LIST_COMPLETE }
+            }
+        }).forEach(item => {
+            beautifulChatConfig.messageList.push(item as BCTextMessage)
+        })
+        
+        
+    }
+
     return {
         beautifulChatConfig,
         sendMessage,
         sendSystemMessage,
+        setAllMessage
     }
-    // function handleOnType() {
-    //     console.log('Emit typing event')
-    // }
-    // function editMessage(message: BCTextMessage) {
-    //     const m = messageList.find(m => m.id === message.id);
-    //     if (m) {
-    //         m.isEdited = true;
-    //         if (m.type === 'text') {
-    //             m.data.text = message.data.text;
-    //         }
-
-    //     }
-    // }
 }
 
