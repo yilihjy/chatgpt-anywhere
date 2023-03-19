@@ -41,7 +41,7 @@ pnpm build
 可以从OpenAI 的官网获取你的key
 https://platform.openai.com/account/api-keys
 
-使用OpenAI官方api的时候，请选择请求域名为\`https://api.openai.com\`
+使用OpenAI官方api的时候，请选择请求域名为`https://api.openai.com`
 
 ### 我在OpenAI不提供服务的地区，我该怎么办？
 
@@ -51,7 +51,7 @@ https://platform.openai.com/account/api-keys
 这里建议使用邮箱进行注册，因为Github注册总是卡住。
 注册后，可以参考下面的图片获取key  
 ![create-key](src/assets/images/create-key.jpg)    
-使用API2D的服务时候，请选择请求域名为\`https://openai.api2d.net\`
+使用API2D的服务时候，请选择请求域名为`https://openai.api2d.net`
 
 #### 当然，你也可以在请求域名的输入框中输入任何想使用的域名
 
