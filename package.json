@@ -16,6 +16,7 @@
     "@vueuse/core": "^9.13.0",
     "api2d": "^0.1.5",
     "element-plus": "^2.3.0",
+    "github-fork-ribbon-css": "^0.2.3",
     "highlight.js": "^11.7.0",
     "klona": "^2.0.6",
     "marked": "^4.2.12",

@@ -36,6 +36,10 @@ const { beautifulChatConfig } = useMessageManage();
 </script>
 
 <style lang="scss">
+.hidden-in-mobile.hide {
+    display: none;
+}
+
 /**
   复写样式
  */

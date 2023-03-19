@@ -13,6 +13,7 @@ specifiers:
   element-plus: ^2.3.0
   eslint: ^8.34.0
   eslint-plugin-vue: ^9.9.0
+  github-fork-ribbon-css: ^0.2.3
   highlight.js: ^11.7.0
   klona: ^2.0.6
   marked: ^4.2.12
@@ -33,6 +34,7 @@ dependencies:
   '@vueuse/core': 9.13.0_vue@3.2.47
   api2d: 0.1.5
   element-plus: 2.3.0_vue@3.2.47
+  github-fork-ribbon-css: 0.2.3
   highlight.js: 11.7.0
   klona: 2.0.6
   marked: 4.2.12
@@ -1788,6 +1790,10 @@ packages:
   /get-value/2.0.6:
     resolution: {integrity: sha512-Ln0UQDlxH1BapMu3GPtf7CuYNwRZf2gwCuPqbyG6pB8WfmFpzqcy4xtAaAMUhnNqjMKTiCPZG2oMT3YSx8U2NA==}
     engines: {node: '>=0.10.0'}
+    dev: false
+
+  /github-fork-ribbon-css/0.2.3:
+    resolution: {integrity: sha512-cmGBV4sivRwmnteSOkqMjN2cnP5/J1SU5aDCVYsBWHmDokZ/JjwGEkduCxY9IULHdCPpw1WSk5Cy8N1LF6jOEw==}
     dev: false
 
   /glob-parent/3.1.0:

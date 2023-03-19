@@ -1,8 +1,20 @@
 # chatGPT-Anywhere
 
-基于 [api2d-js](https://github.com/easychen/api2d-js) 和 [vue3-beautiful-chat](https://github.com/Sitronik/vue3-beautiful-chat) 制作的chatGPT聊天工具。可以用于快速部署一个专属自己的chatGPT聊天页面。
+基于 [api2d-js](https://github.com/easychen/api2d-js) 和 [vue3-beautiful-chat](https://github.com/Sitronik/vue3-beautiful-chat) 制作的chatGPT网页聊天工具。可以用于快速部署一个专属自己的chatGPT聊天页面。
 
-## 快速开始
+
+## 利用Github Page快速部署指南
+
+Fork本项目代码到你自己的GitHub账号  
+按钮在右上角  
+![fork-button](/src/assets/images/fork.png)  
+Fork完成后，点击你仓库Setting按钮  
+![setting-button](/src/assets/images/setting.png)  
+选择侧边的pages页签，按红框中的内容进行设置，点击save
+![setting-button](/src/assets/images/pages.png)  
+等待GitHub给你生成你的pages，你的专属页面就部署好了
+
+## 本地开发
 需要`node 18`  
 使用`pnpm`作为包管理器
 
