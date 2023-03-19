@@ -3,7 +3,7 @@
 基于 [api2d-js](https://github.com/easychen/api2d-js) 和 [vue3-beautiful-chat](https://github.com/Sitronik/vue3-beautiful-chat) 制作的chatGPT网页聊天工具。可以用于快速部署一个专属自己的chatGPT聊天页面。
 
 
-## 利用Github Page快速部署指南
+## 利用Github Pages快速部署指南
 
 Fork本项目代码到你自己的GitHub账号  
 按钮在右上角  
