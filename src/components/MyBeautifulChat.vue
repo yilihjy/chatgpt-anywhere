@@ -1,13 +1,18 @@
 <template>
     <beautiful-chat class="beautiful-chat" :class="{ 'fullscreen': fullscreenMode, 'mobile': !isPC }" v-bind="beautifulChatConfig">
         <template v-slot:header>
-            <span v-if="isPC" class="fullscreen-btn" @click="switchFullscreen">
+            <span v-if="isPC" class="icon-btn" @click="switchFullscreen">
                 <el-icon :size="24">
                     <FullScreen></FullScreen>
                 </el-icon>
                 {{ fullscreenMode ? '缩小' : '全屏' }}
             </span>
-            <span></span>
+            <span v-else class="icon-btn" @click="openSetting">
+                <el-icon :size="24">
+                    <Setting></Setting>
+                </el-icon>
+                {{ '打开设置' }}
+            </span>
         </template>
         <template v-slot:text-message-body="scopedProps">
             <p class="sc-message--text-content" v-html="markdonwText(scopedProps.message.data.text)"></p>
@@ -24,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { FullScreen } from '@element-plus/icons-vue';
+import { FullScreen, Setting } from '@element-plus/icons-vue';
 import { useFullscreen } from '../hooks/useFullscreen';
 import { useMarkAndHljs } from '../hooks/useMarkAndHljs';
 import { useMessageManage } from '../hooks/useMessageManage';
@@ -33,6 +38,25 @@ const { isPC, fullscreenMode, switchFullscreen} = useFullscreen();
 const { markdonwText } = useMarkAndHljs();
 const { beautifulChatConfig } = useMessageManage();
 
+function open() {
+    beautifulChatConfig.open()
+}
+
+function openFullscreen() {
+    beautifulChatConfig.open()
+    if (isPC && !fullscreenMode.value) {
+        switchFullscreen()
+    }
+}
+
+function openSetting () {
+    beautifulChatConfig.close()
+}
+
+defineExpose({
+    open,
+    openFullscreen
+})
 </script>
 
 <style lang="scss">
@@ -65,7 +89,7 @@ const { beautifulChatConfig } = useMessageManage();
     }
 }
 
-.fullscreen-btn {
+.icon-btn {
     font-size: 20px;
     line-height: 24px;
     cursor: pointer;

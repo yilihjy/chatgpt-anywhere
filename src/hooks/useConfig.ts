@@ -1,11 +1,19 @@
 import { useLocalStorage } from '@vueuse/core'
 import type { config } from '../types/config';
-import { unref } from 'vue';
+import { unref, computed } from 'vue';
 
 export function useConfig () {
     const KEY = 'chatGpt-Anywhere-Config';
     const refConfig = useLocalStorage(KEY, getDefaultConfig(), {
         mergeDefaults: true 
+    });
+
+    const hasAllConfig = computed(() => {
+        if (refConfig.value.key && refConfig.value.baseUrl && refConfig.value.model && refConfig.value.systemRole) {
+            return true;
+        } else {
+            return false;
+        }
     });
 
     function getDefaultConfig (): config {
@@ -28,6 +36,7 @@ export function useConfig () {
     return {
         getUnrefConf,
         setConfig,
-        refConfig
+        refConfig,
+        hasAllConfig
     }
 }

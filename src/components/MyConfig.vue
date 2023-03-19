@@ -21,7 +21,7 @@
             <el-input v-model.trim="form.systemRole" />
         </el-form-item>
         <el-form-item>
-            <el-button type="primary" @click="submitForm(ruleFormRef)">保存</el-button>
+            <el-button type="primary" @click="submitForm(ruleFormRef)">保存并开始聊天</el-button>
         </el-form-item>
     </el-form>
 </template>
@@ -31,6 +31,10 @@ import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { klona } from 'klona/json';
 import { useConfig } from '../hooks/useConfig';
+
+const emit = defineEmits<{
+    (e: 'start-chat'): void
+}>();
 
 const { getUnrefConf, setConfig } = useConfig();
 const ruleFormRef = ref<FormInstance>()
@@ -58,6 +62,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         if (valid) {
             console.log(klona(form))
             setConfig(form)
+            emit('start-chat')
         } else {
             console.log('error submit!', fields)
         }

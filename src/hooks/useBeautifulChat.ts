@@ -108,7 +108,7 @@ export function useBeautifulChat(onUserSendMessage: (msg: string) => void) {
     return {
         beautifulChatConfig,
         sendMessage,
-        sendSystemMessage
+        sendSystemMessage,
     }
     // function handleOnType() {
     //     console.log('Emit typing event')
