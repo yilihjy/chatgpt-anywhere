@@ -9,7 +9,8 @@
             </el-card>
         </el-collapse-item>
     </el-collapse>
-    <MyBeautifulChat ref="myBeautifulChat"></MyBeautifulChat>
+    <MyBeautifulChat ref="myBeautifulChat" @close="onChatClose" @open="onChatOpen" @enter-fullscreen="onEnterChatFullscreen"
+        @close-fullscreen="onCloseChatFullscreen"></MyBeautifulChat>
 </template>
 
 <script setup lang="ts">
@@ -18,13 +19,36 @@ import MyConfig from './components/MyConfig.vue';
 import ConfigGuide from './components/ConfigGuide.vue';
 import MyBeautifulChat from './components/MyBeautifulChat.vue';
 import { useConfig } from './hooks/useConfig';
+import { isMobileBrowser } from './utils/isMobileBrowser';
 const myBeautifulChat = ref<InstanceType<typeof MyBeautifulChat> | null>(null)
 const activeNames = ref(['config'])
 const { hasAllConfig } = useConfig();
+const isMobile = isMobileBrowser();
 function startChat() {
     if (myBeautifulChat.value) {
         myBeautifulChat.value?.openFullscreen()
     }
+    if (isMobile) {
+        activeNames.value[0] = '';
+    }
+}
+
+function onChatClose() {
+    activeNames.value[0] = 'config';
+}
+
+function onChatOpen() {
+    if (isMobile) {
+        activeNames.value[0] = '';
+    }
+}
+
+function onEnterChatFullscreen() {
+    activeNames.value[0] = '';
+}
+
+function onCloseChatFullscreen() {
+    activeNames.value[0] = 'config';
 }
 
 onMounted(() => {
