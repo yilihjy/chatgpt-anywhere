@@ -26,7 +26,8 @@ export function useApi2d() {
         const ret: ChatGptResponse = await api.completion({
             model: refConfig.value.model,
             messages: messages,
-            stream: false
+            stream: false,
+            max_tokens: refConfig.value.max_tokens
         });
         try {
             return {

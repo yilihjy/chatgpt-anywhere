@@ -16,7 +16,7 @@
             </span>
         </template>
         <template v-slot:text-message-body="scopedProps">
-            <p class="sc-message--text-content"  v-html="markdonwText(scopedProps.message.data.text)"></p>
+            <p class="sc-message--text-content" v-html="markdonwText(scopedProps.message.data.text)"></p>
             <p v-if="scopedProps.message.data.meta" class="sc-message--meta"
                 :style="{ color: scopedProps.messageColors.color }">
                 {{ scopedProps.message.data.meta }}
@@ -25,11 +25,14 @@
                 <template v-if="scopedProps.message.isEdited">✎</template>
                 <template v-if="scopedProps.message.liked">👍</template>
             </p>
-            <span v-if="['me', 'assistant'].includes(scopedProps.message.author)" class="copy-text" @click="copyText(scopedProps.message.data.text)">
-                <el-icon :size="18 ">
-                    <CopyDocument />
-                </el-icon>
-            </span>
+            <el-tooltip effect="dark" content="复制当前文本" placement="left-end">
+                <span v-if="['me', 'assistant'].includes(scopedProps.message.author)" class="copy-text"
+                    @click="copyText(scopedProps.message.data.text)">
+                    <el-icon :size="18">
+                        <CopyDocument />
+                    </el-icon>
+                </span>
+            </el-tooltip>
         </template>
     </beautiful-chat>
 </template>
@@ -101,6 +104,13 @@ defineExpose({
 <style lang="scss">
 .hidden-in-mobile.hide {
     display: none;
+}
+
+.beautiful-chat {
+    .sc-chat-window {
+        z-index: 1;
+    }
+
 }
 
 /**

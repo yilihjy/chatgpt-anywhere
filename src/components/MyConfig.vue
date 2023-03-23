@@ -20,6 +20,9 @@
         <el-form-item label="默认引导" prop="systemRole">
             <el-input v-model.trim="form.systemRole" />
         </el-form-item>
+        <el-form-item label="max_token" prop="max_tokens">
+            <el-input-number v-model.trim="form.max_tokens" />
+        </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="submitForm(ruleFormRef)">保存并开始聊天</el-button>
         </el-form-item>
@@ -53,7 +56,7 @@ const rules = reactive<FormRules>({
     ],
     systemRole: [
         { required: true, message: '请输入systemRole', trigger: 'blur' },
-    ],
+    ]
 })
 
 const submitForm = async (formEl: FormInstance | undefined) => {

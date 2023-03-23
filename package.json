@@ -14,7 +14,7 @@
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
     "@vueuse/core": "^9.13.0",
-    "api2d": "^0.1.5",
+    "api2d": "^0.1.6",
     "element-plus": "^2.3.0",
     "github-fork-ribbon-css": "^0.2.3",
     "highlight.js": "^11.7.0",

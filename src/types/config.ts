@@ -3,4 +3,5 @@ export interface config {
     baseUrl: string;
     model: string;
     systemRole: string;
+    max_tokens: number;
 }
