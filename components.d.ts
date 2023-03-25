@@ -22,6 +22,7 @@ declare module '@vue/runtime-core' {
     ElOption: typeof import('element-plus/es')['ElOption']
     ElSelect: typeof import('element-plus/es')['ElSelect']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
+    MarkdwonText: typeof import('./src/components/MarkdwonText.vue')['default']
     MyBeautifulChat: typeof import('./src/components/MyBeautifulChat.vue')['default']
     MyConfig: typeof import('./src/components/MyConfig.vue')['default']
   }

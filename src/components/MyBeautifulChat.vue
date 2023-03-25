@@ -19,7 +19,7 @@
       </span>
     </template>
     <template v-slot:text-message-body="scopedProps">
-      <p class="sc-message--text-content" v-html="markdonwText(scopedProps.message.data.text)"></p>
+      <MarkdwonText :markdown="scopedProps.message.data.text"></MarkdwonText>
       <p
         v-if="scopedProps.message.data.meta"
         class="sc-message--meta"
@@ -34,12 +34,13 @@
         <template v-if="scopedProps.message.isEdited">✎</template>
         <template v-if="scopedProps.message.liked">👍</template>
       </p>
-      <el-tooltip effect="dark" content="复制当前文本" placement="left-end">
-        <span
-          v-if="['me', 'assistant'].includes(scopedProps.message.author)"
-          class="copy-text"
-          @click="copyText(scopedProps.message.data.text)"
-        >
+      <el-tooltip
+        v-if="['me', 'assistant'].includes(scopedProps.message.author)"
+        effect="dark"
+        content="复制当前文本"
+        placement="left-end"
+      >
+        <span class="copy-text" @click="copyText(scopedProps.message.data.text)">
           <el-icon :size="18">
             <CopyDocument />
           </el-icon>
@@ -54,8 +55,8 @@ import { useClipboard } from '@vueuse/core'
 import { watch } from 'vue'
 import { FullScreen, Setting, CopyDocument } from '@element-plus/icons-vue'
 import { useFullscreen } from '../hooks/useFullscreen'
-import { useMarkAndHljs } from '../hooks/useMarkAndHljs'
 import { useMessageManage } from '../hooks/useMessageManage'
+import MarkdwonText from './MarkdwonText.vue'
 
 const emit = defineEmits<{
   (e: 'open'): void
@@ -65,7 +66,6 @@ const emit = defineEmits<{
 }>()
 
 const { isPC, fullscreenMode, switchFullscreen } = useFullscreen()
-const { markdonwText } = useMarkAndHljs()
 const { beautifulChatConfig } = useMessageManage()
 
 const { copy } = useClipboard()
