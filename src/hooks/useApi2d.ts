@@ -2,7 +2,11 @@ import Api2d from 'api2d'
 import type { ChatGPTMessage, ChatGptResponse } from '../types/chatGPT'
 import { useConfig } from './useConfig'
 export function useApi2d() {
-  async function sendMessageToApi2d(msg: string, conversations: Array<ChatGPTMessage> = [], onMessage?: (chars: string, isStart: boolean) => void) {
+  async function sendMessageToApi2d(
+    msg: string,
+    conversations: Array<ChatGPTMessage> = [],
+    onMessage?: (chars: string, isStart: boolean) => void
+  ) {
     const { refConfig } = useConfig()
 
     const messages: Array<ChatGPTMessage> = []
@@ -25,7 +29,7 @@ export function useApi2d() {
     }
     const api = new Api2d(refConfig.value.key, refConfig.value.baseUrl)
 
-    let streamStart = true;
+    let streamStart = true
 
     const ret: ChatGptResponse = await api.completion({
       model: refConfig.value.model,
@@ -35,10 +39,10 @@ export function useApi2d() {
       temperature: refConfig.value.temperature || 1,
       onMessage: (chars: string) => {
         if (streamStart) {
-          onMessage && onMessage(chars, true);
-          streamStart = false;
+          onMessage && onMessage(chars, true)
+          streamStart = false
         } else {
-          onMessage && onMessage(chars, false);
+          onMessage && onMessage(chars, false)
         }
         console.log('onMessage', chars)
       },
@@ -46,19 +50,21 @@ export function useApi2d() {
         console.log('onEnd', chars)
       }
     })
-    console.log('ret', ret);
+    console.log('ret', ret)
     try {
       if (typeof ret === 'string') {
         // 流输出
         const message: ChatGPTMessage = {
           content: ret,
-          role: "assistant"
+          role: 'assistant'
         }
-        messages.push(message);
+        messages.push(message)
         return {
-          choices: [{
-            message: message
-          }],
+          choices: [
+            {
+              message: message
+            }
+          ],
           conversations: messages,
           origin: ret
         }
@@ -69,7 +75,6 @@ export function useApi2d() {
           origin: ret
         }
       }
-      
     } catch (error) {
       if (ret) {
         throw new Error(

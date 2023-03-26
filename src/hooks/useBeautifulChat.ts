@@ -143,9 +143,9 @@ export function useBeautifulChat(onUserSendMessage: (msg: string) => void) {
   }
 
   function replaceLastMessage(text: string) {
-    const lastMessage = messageList[messageList.length - 1];
+    const lastMessage = messageList[messageList.length - 1]
     if (lastMessage.type === 'text') {
-      lastMessage.data.text =  text;
+      lastMessage.data.text = text
     }
   }
 

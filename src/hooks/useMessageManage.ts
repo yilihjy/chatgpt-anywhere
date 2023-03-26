@@ -105,7 +105,7 @@ export function useMessageManage() {
     } else {
       try {
         if (refConfig.value.stream) {
-          sendMessage('回答生成中，请稍等片刻');
+          sendMessage('回答生成中，请稍等片刻')
           const { conversations } = await sendMessageToApi2d(
             msg,
             klona(currentConversations.conversations),
@@ -115,7 +115,7 @@ export function useMessageManage() {
           )
           currentConversations.conversations = conversations
         } else {
-          sendMessage('回答生成中，请稍等片刻');
+          sendMessage('回答生成中，请稍等片刻')
           const { choices, conversations } = await sendMessageToApi2d(
             msg,
             klona(currentConversations.conversations)
