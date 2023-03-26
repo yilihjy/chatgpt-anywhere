@@ -29,7 +29,8 @@ export function useApi2d() {
       model: refConfig.value.model,
       messages: messages,
       stream: false,
-      max_tokens: refConfig.value.max_tokens
+      max_tokens: refConfig.value.max_tokens || 1000,
+      temperature: refConfig.value.temperature || 1
     })
     try {
       return {

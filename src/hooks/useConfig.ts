@@ -27,7 +27,8 @@ export function useConfig() {
       baseUrl: '',
       model: 'gpt-3.5-turbo',
       systemRole: 'You are a helpful assistant.',
-      max_tokens: 1000
+      max_tokens: 1000,
+      temperature: 1,
     }
   }
 

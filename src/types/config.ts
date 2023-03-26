@@ -4,4 +4,5 @@ export interface config {
   model: string
   systemRole: string
   max_tokens: number
+  temperature: number
 }
