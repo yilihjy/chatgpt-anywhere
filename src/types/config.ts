@@ -5,4 +5,5 @@ export interface config {
   systemRole: string
   max_tokens: number
   temperature: number
+  stream: boolean
 }

@@ -2,7 +2,7 @@ import Api2d from 'api2d'
 import type { ChatGPTMessage, ChatGptResponse } from '../types/chatGPT'
 import { useConfig } from './useConfig'
 export function useApi2d() {
-  async function sendMessageToApi2d(msg: string, conversations: Array<ChatGPTMessage> = []) {
+  async function sendMessageToApi2d(msg: string, conversations: Array<ChatGPTMessage> = [], onMessage?: (chars: string, isStart: boolean) => void) {
     const { refConfig } = useConfig()
 
     const messages: Array<ChatGPTMessage> = []
@@ -25,19 +25,51 @@ export function useApi2d() {
     }
     const api = new Api2d(refConfig.value.key, refConfig.value.baseUrl)
 
+    let streamStart = true;
+
     const ret: ChatGptResponse = await api.completion({
       model: refConfig.value.model,
       messages: messages,
-      stream: false,
+      stream: refConfig.value.stream,
       max_tokens: refConfig.value.max_tokens || 1000,
-      temperature: refConfig.value.temperature || 1
-    })
-    try {
-      return {
-        choices: ret.choices,
-        conversations: messages.concat(ret.choices.map((item) => item.message)),
-        origin: ret
+      temperature: refConfig.value.temperature || 1,
+      onMessage: (chars: string) => {
+        if (streamStart) {
+          onMessage && onMessage(chars, true);
+          streamStart = false;
+        } else {
+          onMessage && onMessage(chars, false);
+        }
+        console.log('onMessage', chars)
+      },
+      onEnd: (chars: string) => {
+        console.log('onEnd', chars)
       }
+    })
+    console.log('ret', ret);
+    try {
+      if (typeof ret === 'string') {
+        // 流输出
+        const message: ChatGPTMessage = {
+          content: ret,
+          role: "assistant"
+        }
+        messages.push(message);
+        return {
+          choices: [{
+            message: message
+          }],
+          conversations: messages,
+          origin: ret
+        }
+      } else {
+        return {
+          choices: ret.choices,
+          conversations: messages.concat(ret.choices.map((item) => item.message)),
+          origin: ret
+        }
+      }
+      
     } catch (error) {
       if (ret) {
         throw new Error(

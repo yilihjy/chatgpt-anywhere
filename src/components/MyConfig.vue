@@ -26,6 +26,12 @@
     <el-form-item label="temperature" prop="temperature">
       <el-input-number v-model.trim="form.temperature" :min="0" :max="2" />
     </el-form-item>
+    <el-form-item label="流输出" prop="stream">
+      <el-select v-model.trim="form.stream">
+        <el-option label="是" :value="true" />
+        <el-option label="否" :value="false" />
+      </el-select>
+    </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submitForm(ruleFormRef)">保存并开始聊天</el-button>
     </el-form-item>

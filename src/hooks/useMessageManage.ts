@@ -4,9 +4,11 @@ import { useBeautifulChat } from '../hooks/useBeautifulChat'
 import { useApi2d } from '../hooks/useApi2d'
 import { useSystemOrder } from './useSystemOrder'
 import { klona } from 'klona/json'
+import { useConfig } from './useConfig'
 
 export function useMessageManage() {
-  const { beautifulChatConfig, sendMessage, sendSystemMessage, setAllMessage } =
+  const { refConfig } = useConfig()
+  const { beautifulChatConfig, sendMessage, sendSystemMessage, setAllMessage, replaceLastMessage } =
     useBeautifulChat(onUserSendMessage)
   const { sendMessageToApi2d } = useApi2d()
   const {
@@ -102,14 +104,31 @@ export function useMessageManage() {
       executeOrder(msg)
     } else {
       try {
-        const { choices, conversations } = await sendMessageToApi2d(
-          msg,
-          klona(currentConversations.conversations)
-        )
-        currentConversations.conversations = conversations
-        choices.forEach((item) => {
-          sendMessage(item.message.content)
-        })
+        if (refConfig.value.stream) {
+          sendMessage('回答生成中，请稍等片刻');
+          const { conversations } = await sendMessageToApi2d(
+            msg,
+            klona(currentConversations.conversations),
+            (chars) => {
+              replaceLastMessage(chars)
+            }
+          )
+          currentConversations.conversations = conversations
+        } else {
+          sendMessage('回答生成中，请稍等片刻');
+          const { choices, conversations } = await sendMessageToApi2d(
+            msg,
+            klona(currentConversations.conversations)
+          )
+          currentConversations.conversations = conversations
+          choices.forEach((item, index) => {
+            if (index === 0) {
+              replaceLastMessage(item.message.content)
+            } else {
+              sendMessage(item.message.content)
+            }
+          })
+        }
       } catch (error) {
         const errReg = /^系统错误：/
         if (error instanceof Error) {

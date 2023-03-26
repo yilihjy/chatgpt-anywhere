@@ -29,6 +29,7 @@ export function useConfig() {
       systemRole: 'You are a helpful assistant.',
       max_tokens: 1000,
       temperature: 1,
+      stream: false
     }
   }
 
