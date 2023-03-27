@@ -16,6 +16,7 @@
     "@vueuse/core": "^9.13.0",
     "api2d": "^0.1.6",
     "clipboard": "^2.0.11",
+    "dexie": "^3.2.3",
     "element-plus": "^2.3.0",
     "github-fork-ribbon-css": "^0.2.3",
     "highlight.js": "^11.7.0",
@@ -23,6 +24,7 @@
     "markdown-it": "^13.0.1",
     "marked": "^4.2.12",
     "sass": "^1.59.3",
+    "uuid": "^9.0.0",
     "vue": "^3.2.47",
     "vue3-beautiful-chat": "^3.3.1"
   },

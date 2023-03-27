@@ -12,6 +12,7 @@ specifiers:
   '@vueuse/core': ^9.13.0
   api2d: ^0.1.6
   clipboard: ^2.0.11
+  dexie: ^3.2.3
   element-plus: ^2.3.0
   eslint: ^8.34.0
   eslint-plugin-vue: ^9.9.0
@@ -27,6 +28,7 @@ specifiers:
   unplugin-auto-import: ^0.15.1
   unplugin-icons: ^0.15.3
   unplugin-vue-components: ^0.24.1
+  uuid: ^9.0.0
   vite: ^4.1.4
   vue: ^3.2.47
   vue-tsc: ^1.2.0
@@ -37,6 +39,7 @@ dependencies:
   '@vueuse/core': 9.13.0_vue@3.2.47
   api2d: 0.1.6
   clipboard: 2.0.11
+  dexie: 3.2.3
   element-plus: 2.3.0_vue@3.2.47
   github-fork-ribbon-css: 0.2.3
   highlight.js: 11.7.0
@@ -44,6 +47,7 @@ dependencies:
   markdown-it: 13.0.1
   marked: 4.2.12
   sass: 1.59.3
+  uuid: 9.0.0
   vue: 3.2.47
   vue3-beautiful-chat: 3.3.1_vue@3.2.47
 
@@ -1241,6 +1245,11 @@ packages:
 
   /delegate/3.2.0:
     resolution: {integrity: sha512-IofjkYBZaZivn0V8nnsMJGBr4jVLxHDheKSW88PyxS5QC4Vo9ZbZVvhzlSxY87fVq3STR6r+4cGepyHkcWOQSw==}
+    dev: false
+
+  /dexie/3.2.3:
+    resolution: {integrity: sha512-iHayBd4UYryDCVUNa3PMsJMEnd8yjyh5p7a+RFeC8i8n476BC9wMhVvqiImq5zJZJf5Tuer+s4SSj+AA3x+ZbQ==}
+    engines: {node: '>=6.0'}
     dev: false
 
   /dir-glob/2.0.0:
@@ -3531,6 +3540,11 @@ packages:
   /util-deprecate/1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: true
+
+  /uuid/9.0.0:
+    resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
+    hasBin: true
+    dev: false
 
   /v-tooltip/4.0.0-beta.17_vue@3.2.47:
     resolution: {integrity: sha512-d7v/6KEXQOtcj3NT3Z1LpbDv8SBh8JgbsD+3s/zGIGCxiXC2SoVW6wGV4X0MlCo97PiosibcSe+VKbFiy4AKnQ==}
