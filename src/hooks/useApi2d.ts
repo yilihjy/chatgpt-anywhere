@@ -5,7 +5,7 @@ export function useApi2d() {
   async function sendMessageToApi2d(
     msg: string,
     conversations: Array<ChatGPTMessage> = [],
-    onMessage?: (chars: string, isStart: boolean) => void
+    onMessage: (chars: string) => void
   ) {
     const { refConfig } = useConfig()
 
@@ -29,57 +29,54 @@ export function useApi2d() {
     }
     const api = new Api2d(refConfig.value.key, refConfig.value.baseUrl)
 
-    let streamStart = true
-
-    const ret: ChatGptResponse = await api.completion({
-      model: refConfig.value.model,
-      messages: messages,
-      stream: refConfig.value.stream,
-      max_tokens: refConfig.value.max_tokens || 1000,
-      temperature: refConfig.value.temperature || 1,
-      onMessage: (chars: string) => {
-        if (streamStart) {
-          onMessage && onMessage(chars, true)
-          streamStart = false
-        } else {
-          onMessage && onMessage(chars, false)
-        }
-        console.log('onMessage', chars)
-      },
-      onEnd: (chars: string) => {
-        console.log('onEnd', chars)
-      }
-    })
-    console.log('ret', ret)
     try {
-      if (typeof ret === 'string') {
-        // 流输出
-        const message: ChatGPTMessage = {
-          content: ret,
-          role: 'assistant'
+      const ret: ChatGptResponse | string = await api.completion({
+        model: refConfig.value.model,
+        messages: messages,
+        stream: refConfig.value.stream,
+        max_tokens: refConfig.value.max_tokens || 1000,
+        temperature: refConfig.value.temperature || 1,
+        onMessage: (chars: string) => {
+          console.log('onMessage', chars)
+          onMessage(chars)
+        },
+        onEnd: (chars: string) => {
+          console.log('onEnd', chars)
         }
-        messages.push(message)
-        return {
-          choices: [
-            {
-              message: message
-            }
-          ],
-          conversations: messages,
-          origin: ret
+      })
+      console.log('ret', ret)
+      try {
+        if (refConfig.value.stream) {
+          const message: ChatGPTMessage = {
+            content: ret as string,
+            role: 'assistant'
+          }
+          messages.push(message)
+          return {
+            conversations: messages
+          }
+        } else {
+          onMessage((ret as ChatGptResponse).choices[0].message.content)
+          return {
+            conversations: messages.concat(
+              (ret as ChatGptResponse).choices.map((item) => item.message)
+            ),
+            origin: ret
+          }
         }
-      } else {
-        return {
-          choices: ret.choices,
-          conversations: messages.concat(ret.choices.map((item) => item.message)),
-          origin: ret
+      } catch (error) {
+        if (ret) {
+          throw new Error(
+            `发生错误，错误原因:\n\`\`\`json\n${JSON.stringify(ret, undefined, 4)}\n\`\`\``
+          )
+        } else {
+          throw error
         }
       }
     } catch (error) {
-      if (ret) {
-        throw new Error(
-          `发生错误，错误原因:\n\`\`\`json\n${JSON.stringify(ret, undefined, 4)}\n\`\`\``
-        )
+      console.error(error)
+      if (error instanceof Error) {
+        throw new Error(`发生错误-${error.message}`)
       } else {
         throw error
       }
