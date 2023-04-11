@@ -2,13 +2,14 @@ import { reactive, onMounted } from 'vue'
 import type { ChatGPTMessage } from '../types/chatGPT'
 import { useBeautifulChat } from '../hooks/useBeautifulChat'
 import { useApi2d } from '../hooks/useApi2d'
+import { useConversationRecord } from '../hooks/useConversationRecord'
 import { useSystemOrder } from './useSystemOrder'
 import { klona } from 'klona/json'
 
 export function useMessageManage() {
   const { beautifulChatConfig, sendMessage, sendSystemMessage, setAllMessage, replaceLastMessage } =
     useBeautifulChat(onUserSendMessage)
-  const { sendMessageToApi2d } = useApi2d()
+  const { sendMessageToApi2d, setConversationId } = useApi2d()
   const {
     isSystemOrder,
     setOrderHandle,
@@ -17,6 +18,9 @@ export function useMessageManage() {
     SAVE_LAST_CONVERSATIONS,
     UPLOAD_CONVERSATIONS
   } = useSystemOrder()
+
+  const { toUIdata, addNewConversations, addNewMessage } = useConversationRecord()
+
   const currentConversations = reactive<{
     conversations: Array<ChatGPTMessage>
   }>({
@@ -77,8 +81,7 @@ export function useMessageManage() {
               const data = JSON.parse(contents)
               console.log('upload data', data)
               if (Array.isArray(data)) {
-                currentConversations.conversations = data
-                setAllMessage(klona(currentConversations.conversations))
+                showChatByData(data)
                 document.body.removeChild(input)
               } else {
                 document.body.removeChild(input)
@@ -124,12 +127,37 @@ export function useMessageManage() {
     }
   }
 
+  async function showChatByData(data: Array<ChatGPTMessage>) {
+    currentConversations.conversations = data
+    setAllMessage(klona(currentConversations.conversations))
+    const sys = data[0]
+    const id = await addNewConversations(sys.role, sys.content)
+    let noTitle = true
+    for (const item of data.slice(1)) {
+      if (noTitle) {
+        await addNewMessage(item.role, item.content, id, noTitle)
+        noTitle = false
+      } else {
+        await addNewMessage(item.role, item.content, id)
+      }
+    }
+    setConversationId(id)
+  }
+
+  async function showChatById(id: string) {
+    const data = await toUIdata(id)
+    currentConversations.conversations = data
+    setAllMessage(klona(currentConversations.conversations))
+    setConversationId(id)
+  }
+
   onMounted(() => {
     sendSystemMessage('你现在可以和chatGPT聊天了')
   })
 
   return {
     beautifulChatConfig,
-    sendSystemMessage
+    sendSystemMessage,
+    showChatById
   }
 }

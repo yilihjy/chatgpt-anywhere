@@ -1,18 +1,16 @@
 import Api2d from 'api2d'
-import { ref } from 'vue';
+import { ref } from 'vue'
 import type { ChatGPTMessage, ChatGptResponse } from '../types/chatGPT'
 import { useConfig } from './useConfig'
 import { useConversationRecord } from './useConversationRecord'
 export function useApi2d() {
-  const { addNewConversations, addNewMessage } = useConversationRecord();
-  const conversationId = ref<string>('');
+  const { addNewConversations, addNewMessage } = useConversationRecord()
+  const conversationId = ref<string>('')
   async function sendMessageToApi2d(
     msg: string,
     conversations: Array<ChatGPTMessage> = [],
     onMessage: (chars: string) => void
   ) {
-   
-
     try {
       const { refConfig } = useConfig()
 
@@ -20,7 +18,7 @@ export function useApi2d() {
       if (conversations.length > 0) {
         // 有历史对话
         messages.splice(messages.length, 0, ...conversations)
-        await addNewMessage('user', msg, conversationId.value, false);
+        await addNewMessage('user', msg, conversationId.value, false)
       } else {
         // 没有历史对话
         messages.push({
@@ -28,13 +26,13 @@ export function useApi2d() {
           content: refConfig.value.systemRole
         })
         conversationId.value = await addNewConversations('system', refConfig.value.systemRole)
-        await addNewMessage('user', msg, conversationId.value, true);
+        await addNewMessage('user', msg, conversationId.value, true)
       }
       messages.push({
         role: 'user',
         content: msg
       })
-      
+
       if (!refConfig.value.key) {
         throw new Error('系统错误：请先设置key')
       }
@@ -54,10 +52,9 @@ export function useApi2d() {
         }
       })
       console.log('ret', ret)
-      // TODO 保存chatGPT回复
       try {
         if (refConfig.value.stream) {
-          await addNewMessage('assistant', ret as string, conversationId.value);
+          await addNewMessage('assistant', ret as string, conversationId.value)
           const message: ChatGPTMessage = {
             content: ret as string,
             role: 'assistant'
@@ -69,7 +66,7 @@ export function useApi2d() {
         } else {
           const messageText = (ret as ChatGptResponse).choices[0].message.content
           onMessage(messageText)
-          await addNewMessage('assistant', messageText, conversationId.value);
+          await addNewMessage('assistant', messageText, conversationId.value)
           return {
             conversations: messages.concat(
               (ret as ChatGptResponse).choices.map((item) => item.message)
@@ -78,7 +75,7 @@ export function useApi2d() {
           }
         }
       } catch (error) {
-        console.log(error);
+        console.log(error)
         if (ret) {
           throw new Error(
             `发生错误，错误原因:\n\`\`\`json\n${JSON.stringify(ret, undefined, 4)}\n\`\`\``
@@ -97,7 +94,12 @@ export function useApi2d() {
     }
   }
 
+  function setConversationId(id: string) {
+    conversationId.value = id
+  }
+
   return {
-    sendMessageToApi2d
+    sendMessageToApi2d,
+    setConversationId
   }
 }

@@ -66,7 +66,7 @@ const emit = defineEmits<{
 }>()
 
 const { isPC, fullscreenMode, switchFullscreen } = useFullscreen()
-const { beautifulChatConfig } = useMessageManage()
+const { beautifulChatConfig, showChatById } = useMessageManage()
 
 const { copy } = useClipboard()
 
@@ -87,6 +87,11 @@ function openSetting() {
 
 async function copyText(text: string) {
   await copy(text)
+}
+
+async function seeConversation(id: string) {
+  await showChatById(id)
+  openFullscreen()
 }
 
 watch(
@@ -113,7 +118,8 @@ watch(
 
 defineExpose({
   open,
-  openFullscreen
+  openFullscreen,
+  seeConversation
 })
 </script>
 
@@ -124,7 +130,7 @@ defineExpose({
 
 .beautiful-chat {
   .sc-chat-window {
-    z-index: 1;
+    z-index: 100;
   }
 }
 

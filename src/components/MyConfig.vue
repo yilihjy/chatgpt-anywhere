@@ -18,7 +18,7 @@
       </el-select>
     </el-form-item>
     <el-form-item label="默认引导" prop="systemRole">
-      <el-input v-model.trim="form.systemRole" />
+      <el-input v-model="form.systemRole" :autosize="{ minRows: 1, maxRows: 4 }" type="textarea" />
     </el-form-item>
     <el-form-item label="max_tokens" prop="max_tokens">
       <el-input-number v-model.trim="form.max_tokens" />

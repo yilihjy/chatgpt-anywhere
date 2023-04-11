@@ -1,6 +1,6 @@
 <template>
-  <div v-html="content"></div>
-  <div v-html="startChat"></div>
+  <div class="guide" v-html="content"></div>
+  <div class="guide" v-html="startChat"></div>
 </template>
 
 <script setup lang="ts">
@@ -54,3 +54,11 @@ const startChat = markdonwText(`
 ## 请遵守并尊重您所在地区的法律规定，维护社会公序良俗
 `)
 </script>
+
+<style lang="scss">
+.guide {
+  img {
+    max-width: 100%;
+  }
+}
+</style>

@@ -2,18 +2,28 @@
 
 基于 [api2d-js](https://github.com/easychen/api2d-js) 和 [vue3-beautiful-chat](https://github.com/Sitronik/vue3-beautiful-chat) 制作的chatGPT网页聊天工具。可以用于快速部署一个专属自己的chatGPT聊天页面。
 
-## 在线速览
-访问[https://yilihjy.github.io/chatgpt-anywhere/](https://yilihjy.github.io/chatgpt-anywhere/) 立刻体验
+本项目中部分代码由`chatGPT`生成。
+
+## 在线速览DEMO
+[https://yilihjy.github.io/chatgpt-anywhere/](https://yilihjy.github.io/chatgpt-anywhere/) 
 
 ## 已有特性
 - 网页聊天应用，能够和chatGPT进行文字聊天；
 - 纯前端页面，不需要你运行任何node服务；
-- 支持切换openAI的官方接口和第三方接口，方便不同网络环境使用；
+- 支持切换openAI的官方接口和第三方接口，方便不同网络环境使用(key保存在LocalStorage)；
 - 能够保存每次会话的记录为json文件，方便记录下有趣的对话内容；
 - 支持上传保存的json文件，随时恢复上一次和chatGPT的对话;
 - 快速利用Github Pages部署属于自己的专属聊天页面;
+- 浏览器本地记录历史对话（基于IndexedDB，使用[dexie](https://dexie.org/)实现）;
 
-## [TODO](/TODO.md)
+### 注意，本项目是个纯前端项目，你需要使用OpenAI提供的API接口或者和OpenAI接口兼容的第三方服务。个人兴趣项目，纯粹自用，随缘更新，[TODO清单](/TODO.md)。
+
+这里有一些更通用的开源项目，都被很好的维护，不妨去看看：
+- [chatgpt-web](https://github.com/Chanzhaoyu/chatgpt-web)
+- [ChatGPT-Next-Web](https://github.com/Yidadaa/ChatGPT-Next-Web)
+- [chatgpt_academic](https://github.com/binary-husky/chatgpt_academic)
+- [chatbot-ui](https://github.com/mckaywrigley/chatbot-ui)
+- [chatchan-dist](https://github.com/easychen/chatchan-dist)
 
 ## 利用Github Pages快速部署指南
 

@@ -1,6 +1,7 @@
 import Dexie, { type Table } from 'dexie'
 import { v4 as uuidv4 } from 'uuid'
-import type { conversation, message } from '../types/DB'
+import type { conversation, message, PaginationResult } from '../types/DB'
+import type { ChatGPTMessage } from '@/types/chatGPT'
 
 export class ChatWithGPTDatabase extends Dexie {
   conversations!: Table<conversation>
@@ -63,17 +64,74 @@ export function useConversationRecord() {
       .where('id')
       .equals(belongTo)
       .modify((conversation: conversation) => {
-        conversation.messageIds.push(id);
-        conversation.updated = new Date().getTime();
+        conversation.messageIds.push(id)
+        conversation.updated = new Date().getTime()
         if (title) {
-            conversation.title = content.length > 10 ? content.slice(0, 10) : content
+          conversation.title = content.length > 10 ? content.slice(0, 10) : content
         }
         conversation.finished = role === 'assistant'
       })
   }
 
+  async function getConversationsByPage(
+    page: number,
+    pageSize = 10,
+    order: 'asc' | 'desc' = 'desc'
+  ): Promise<PaginationResult<conversation>> {
+    const totalItems = await db.conversations.count()
+    const totalPages = Math.ceil(totalItems / pageSize)
+    const offset = (page - 1) * pageSize
+    let conversations: Array<conversation>
+    if (order === 'desc') {
+      conversations = await db.conversations
+        .orderBy('updated')
+        .reverse()
+        .offset(offset)
+        .limit(pageSize)
+        .toArray()
+
+      return {
+        list: conversations,
+        currentPage: page,
+        totalPages,
+        totalItems
+      }
+    } else {
+      conversations = await db.conversations
+        .orderBy('updated')
+        .offset(offset)
+        .limit(pageSize)
+        .toArray()
+    }
+    return {
+      list: conversations,
+      currentPage: page,
+      totalPages,
+      totalItems
+    }
+  }
+
+  async function getMessagesByBelongTo(belongTo: string): Promise<message[]> {
+    const messages = await db.messages.where('belongTo').equals(belongTo).sortBy('created')
+    return messages
+  }
+
+  async function toUIdata(belongTo: string): Promise<Array<ChatGPTMessage>> {
+    const list = await getMessagesByBelongTo(belongTo)
+    console.log(list)
+    return list.map((item) => {
+      return {
+        role: item.role as 'system' | 'assistant' | 'user',
+        content: item.content || item.prompt || ''
+      }
+    })
+  }
+
   return {
     addNewConversations,
-    addNewMessage
+    addNewMessage,
+    getConversationsByPage,
+    getMessagesByBelongTo,
+    toUIdata
   }
 }
