@@ -67,7 +67,9 @@ export function useConversationRecord() {
         conversation.messageIds.push(id)
         conversation.updated = new Date().getTime()
         if (title) {
-          conversation.title = content.length > 10 ? content.slice(0, 10) : content
+          const TITLE_MAX_LENGTH = 25
+          conversation.title =
+            content.length > TITLE_MAX_LENGTH ? content.slice(0, TITLE_MAX_LENGTH) : content
         }
         conversation.finished = role === 'assistant'
       })
