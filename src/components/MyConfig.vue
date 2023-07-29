@@ -14,7 +14,12 @@
       <el-select v-model.trim="form.model" clearable allow-create filterable>
         <el-option label="gpt-3.5-turbo" value="gpt-3.5-turbo" />
         <el-option label="gpt-3.5-turbo-0301" value="gpt-3.5-turbo-0301" />
+        <el-option label="gpt-3.5-turbo-0613" value="gpt-3.5-turbo-0613" />
+        <el-option label="gpt-3.5-turbo-16k" value="gpt-3.5-turbo-16k" />
+        <el-option label="gpt-3.5-turbo-16k-0613" value="gpt-3.5-turbo-16k-0613" />
         <el-option label="gpt-4" value="gpt-4" />
+        <el-option label="gpt-4-0314" value="gpt-4-0314" />
+        <el-option label="gpt-4-0613" value="gpt-4-0613" />
       </el-select>
     </el-form-item>
     <el-form-item label="默认引导" prop="systemRole">
